@@ -1,5 +1,5 @@
 const express = require('express');
-const marketModel = require('../models/marketModels.js')
+const marketModel = require('../entities/marketEntities')
 const {getAllMarkets,getMarketById,createMarket,updateMarket,deleteMarket} = marketModel
 const router = express.Router();
 

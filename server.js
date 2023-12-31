@@ -13,7 +13,7 @@ const routes = require('./Routes/MarketRoutes');
 
 dotenv.config({ path: './config/.env' });
 
-const {MY_PORT} = process.env;
+const { MY_PORT} = process.env;
 
 
 dotenv.config()
