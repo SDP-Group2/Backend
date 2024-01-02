@@ -1,6 +1,7 @@
 const express = require("express")
 const dotenv = require('dotenv')
 const helmet = require('helmet')
+const rateLimit = require("express-rate-limit");
 
 
 const swaggerUi = require('swagger-ui-express')
@@ -19,7 +20,12 @@ const { MY_PORT} = process.env;
 dotenv.config()
 var app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+});
 
+app.use(limiter);
 app.use(helmet())
 app.disable('x-powered-by')
   
