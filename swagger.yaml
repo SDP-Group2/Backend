@@ -5,10 +5,30 @@ info:
   version: 0.1.9
 
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:5000
     description: Optional server description, e.g. Main (production) server
 
 paths:
+  /‌report:
+    post:
+      summary: Create Report.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_cutomer:
+                  type: integer
+                location:
+                  type: string
+                report:
+                  type: string
+      responses:
+        '201':
+          description: Created
+
   /market/all:
     get:
       summary: Returns Market.
