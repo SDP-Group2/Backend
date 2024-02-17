@@ -3,12 +3,18 @@ const { TABLE_2 } = process.env;
 
 db.connect()
 
-const createReport = (ReportData, callback) => {
-  const { id_customer, location ,Report} = ReportData;
-  db.query(`INSERT INTO ${TABLE_2} (id_customer, location, report) VALUES (?, ? ,?)`, [id_customer, location,Report], callback);
+const getAllReport = (callback) => {
+  db.query(`SELECT * FROM ${TABLE_2}`, callback);
+};
+
+const createReport = (reportData, callback) => {
+  const {  location ,report} = reportData;
+  console.log( location,report)
+  db.query(`INSERT INTO ${TABLE_2} (location, report) VALUES (?, ? )`, [location,report], callback);
 };
 
 
 module.exports = {
   createReport,
+  getAllReport
 }
