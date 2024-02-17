@@ -10,7 +10,7 @@ const getAllReport = (callback) => {
 const createReport = (reportData, callback) => {
   const {  location ,report} = reportData;
   console.log( location,report)
-  db.query(`INSERT INTO ${TABLE_2} (location, report) VALUES (?, ? )`, [location,report], callback);
+  db.query(`INSERT INTO ${TABLE_2} (location, report) VALUES (?, ?)`, [location,report], callback);
 };
 
 

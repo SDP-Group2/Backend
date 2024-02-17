@@ -64,9 +64,11 @@ paths:
             schema:
               type: object
               properties:
-                location:
+                Stall_name:
                   type: string
-                type_shop:
+                Stall_type:
+                  type: string
+                Phone:
                   type: string
       responses: 
         '201':

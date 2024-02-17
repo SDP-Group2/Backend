@@ -8,23 +8,23 @@ const getAllMarkets = (callback) => {
 };
 
 const getMarketById = (id, callback) => {
-  db.query(`SELECT * FROM ${TABLE} WHERE id=?`, [id], callback);
+  db.query(`SELECT * FROM ${TABLE} WHERE id_stall=?`, [id], callback);
 };
 
 const createMarket = (marketData, callback) => {
-  const { location, type_shop } = marketData;
-  db.query(`INSERT INTO ${TABLE} (location, type_shop) VALUES (?, ?)`, [location, type_shop], callback);
+  const { name,type,phone} = marketData;
+  db.query(`INSERT INTO ${TABLE} (Stall_name, Stall_type,Phone) VALUES (?, ?, ?)`, [name,type,phone], callback);
 };
 
 const updateMarket = (marketData, callback) => {
-  const { location, type_shop, id } = marketData;
+  const { name,type,phone,id } = marketData;
   console.log(location,type_shop)
-  db.query( `update ${TABLE} set location = ?,type_shop =? where id = ?`,[location,type_shop,id], callback);
+  db.query( `update ${TABLE} set Stall_name = ?,Stall_type = ?,Phone = ?, where id_stall = ?`,[name,type,phone,id], callback);
 };
 
 const deleteMarket = (marketData, callback) => {
   const {id } = marketData;
-  db.query( `DELETE FROM ${TABLE} WHERE id = ?`, [id], callback);
+  db.query( `DELETE FROM ${TABLE} WHERE id_stall = ?`, [id], callback);
 };
 
 

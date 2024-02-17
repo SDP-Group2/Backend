@@ -1,6 +1,6 @@
 const express = require('express');
-const marketModel = require('../entities/marketEntities')
-const {getAllMarkets,getMarketById,createMarket,updateMarket,deleteMarket} = marketModel
+const marketModel = require('../entities/stallEntities')
+const {getAllStalls,getStallById,createStall,updateStall,deleteStall} = marketModel
 const router = express.Router();
 
 router.get('/all', (req, res) => {
