@@ -4,14 +4,14 @@ const {getAllStalls,getStallById,createStall,updateStall,deleteStall} = marketMo
 const router = express.Router();
 
 router.get('/all', (req, res) => {
-  marketModel.getAllMarkets((err, result) => {
+  marketModel.getAllStalls((err, result) => {
     if (err) {
       res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
       return;
     }
     res.json(result);
   });
-});
+})
 
 
 router.get('/:id', (req, res) => {

@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server",
+    "start": "set NODE_ENV=production&& node server",
+    "dev": "set NODE_ENV=development&& nodemon server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "NITITORN KONGDANG",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -18,7 +19,11 @@
     "fs": "^0.0.1-security",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-simple": "^0.5.6",
     "mysql2": "^3.6.5",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "save": "^2.9.0",
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.4"
   },
