@@ -1,10 +1,10 @@
 const express = require('express');
-const stallModel = require('../entities/stallEntities')
-const {getAllStalls,getStallById,createStall,updateStall,deleteStall} = stallModel
+const marketModel = require('../entities/MarketEntities')
+const {getAllMarket,getMarketBykey,updateMarketToNotNull,updateMarketToNull} = marketModel
 const router = express.Router();
 
 router.get('/all', (req, res) => {
-  stallModel.getAllStalls((err, result) => {
+  marketModel.getAllMarket((err, result) => {
     if (err) {
       res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
       return;
@@ -14,9 +14,9 @@ router.get('/all', (req, res) => {
 })
 
 
-router.get('/:id', (req, res) => {
-    const id = req.params.id;
-    stallModel.getStallById(id, (err, result) => {
+router.get('/:key', (req, res) => {
+    const key = req.params.key;
+    marketModel.getMarketBykey(key, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
         return;
@@ -29,11 +29,9 @@ router.get('/:id', (req, res) => {
     });
   });
 
-
-  
-  router.post('/', (req, res) => {
+  router.put('/ToNotNull/:id', (req, res) => {
     const marketData = req.body;
-    stallModel.createStall(marketData, (err, result) => {
+    marketModel.updateMarketToNotNull(marketData, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
         return;
@@ -41,11 +39,9 @@ router.get('/:id', (req, res) => {
       res.json(result);
     });
   });
-
-
-  router.put('/', (req, res) => {
+  router.put('/ToNull/:id', (req, res) => {
     const marketData = req.body;
-    stallModel.updateStall(marketData, (err, result) => {
+    marketModel.updateMarketToNull(marketData, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
         return;
@@ -54,21 +50,6 @@ router.get('/:id', (req, res) => {
     });
   });
   
-  
-
-
-  router.delete('/:id', (req,res) => {
-    const id = req.params.id;
-
-    stallModel.deleteStall({ id },(err, result) => {
-      if (err) {
-        res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
-        return;
-      }
-      res.json(result);
-    });
-  });
-
 
 
   module.exports = router;

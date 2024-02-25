@@ -64,25 +64,7 @@ paths:
                 items: 
                   type: string
 
-  /market:
-    post:
-      summary: Create Market Places.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                Stall_name:
-                  type: string
-                Stall_type:
-                  type: string
-                Phone:
-                  type: string
-      responses: 
-        '201':
-          description: Created
+  /market/ToNotNull/{id}:
     put:
       summary: Update Market Places.
       requestBody:
@@ -94,25 +76,38 @@ paths:
               properties:
                 id:
                   type: integer
-                location:
-                  type: string
-                type_shop:
+                status:
                   type: string
       responses: 
         '201':
           description: Updated
-
-  /market/{id}:
+  /market/ToNull/{id}:
+    put:
+      summary: Update Market Places.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                status:
+                  type: string
+      responses: 
+        '201':
+          description: Updated
+  /market/{key}:
     get:
       summary: Returns a Market by ID.
       parameters:
-        - name: id
+        - name: key
           in: path
           required: true
           description: Parameter description in CommonMark or HTML.
           schema:
-            type : integer
-            format: int64
+            type : string
             minimum: 1
       responses: 
         '200':

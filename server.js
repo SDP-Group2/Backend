@@ -10,7 +10,7 @@ const yaml = require('yaml')
 const file = fs.readFileSync('./swagger.yaml', 'utf8')
 const cors = require('cors')
 const swaggerDocument = yaml.parse(file)
-const MarketController = require('./Controller/StallController');
+const MarketController = require('./Controller/MarketController');
 const ReportController = require('./Controller/ReportController');
 
 dotenv.config({ path: './config/.env' });
