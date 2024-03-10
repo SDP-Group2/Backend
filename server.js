@@ -12,6 +12,26 @@ const cors = require('cors')
 const swaggerDocument = yaml.parse(file)
 const MarketController = require('./Controller/MarketController');
 const ReportController = require('./Controller/ReportController');
+const multer  = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './Public/uploads-report');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload_report  = multer({ 
+  storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Only .jpg, .jpeg and .png files are allowed'));
+    }
+    cb(null, true);
+  }
+}); 
 
 dotenv.config({ path: './config/.env' });
 
@@ -43,7 +63,7 @@ if(NODE_ENV === 'development'){
 app.use(express.json())
 
 app.use('/market', authenticateApiKey,MarketController);
-app.use('/report', authenticateApiKey,ReportController);
+app.use('/report', upload_report.single('file'),authenticateApiKey,ReportController);
 
 app.listen(MY_PORT, () =>{
   console.log("Started application on port %d", MY_PORT);

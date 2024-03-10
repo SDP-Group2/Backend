@@ -36,13 +36,15 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:  
             schema:
               type: object
               properties:
                 location:
                   type: string
                 report:
+                  type: string
+                file:
                   type: string
       responses:
         '201':

@@ -8,9 +8,9 @@ const getAllReport = (callback) => {
 };
 
 const createReport = (reportData, callback) => {
-  const {  location ,report} = reportData;
-  console.log( location,report)
-  db.query(`INSERT INTO ${TABLE_2} (location, report) VALUES (?, ?)`, [location,report], callback);
+  const {  location ,report,file} = reportData;
+  console.log( location,report,file)
+  db.query(`INSERT INTO ${TABLE_2} (location, report,filePath) VALUES (?, ?,?)`, [location,report,file], callback);
 };
 
 
