@@ -12,8 +12,20 @@ const cors = require('cors')
 const swaggerDocument = yaml.parse(file)
 const MarketController = require('./Controller/MarketController');
 const ReportController = require('./Controller/ReportController');
+const StallController = require('./Controller/StallController');
+
 const multer  = require('multer');
-const storage = multer.diskStorage({
+
+const storage_report = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './Public/uploads-slip');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const storage_slip = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './Public/uploads-report');
   },
@@ -23,7 +35,18 @@ const storage = multer.diskStorage({
 });
 
 const upload_report  = multer({ 
-  storage: storage,
+  storage: storage_report,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: function (req, file, cb) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return cb(new Error('Only .jpg, .jpeg and .png files are allowed'));
+    }
+    cb(null, true);
+  }
+}); 
+
+const upload_slip  = multer({ 
+  storage: storage_slip,
   limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
     if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
@@ -41,8 +64,9 @@ var app = express();
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, 
-  max: 10000, 
+  max: 1000, 
 });
+
 function authenticateApiKey(req, res, next) {
   const apiKey = req.headers['api-key'];
   if (!apiKey || apiKey !== API_KEY) {
@@ -64,6 +88,7 @@ app.use(express.json())
 
 app.use('/market', authenticateApiKey,MarketController);
 app.use('/report', upload_report.single('file'),authenticateApiKey,ReportController);
+app.use('/stall',  upload_slip.single('file'),authenticateApiKey,StallController);
 
 app.listen(MY_PORT, () =>{
   console.log("Started application on port %d", MY_PORT);
