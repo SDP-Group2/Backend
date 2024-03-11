@@ -19,8 +19,12 @@ const updateMarketToNotNull = (marketData, callback) => {
 
 const updateMarketToNull = (marketData, callback) => {
   const { status,id } = marketData;
-  console.log(location,type_shop)
+  if (status.trim() === '' || id.trim() === '' || status.trim().length > 1 || id.trim().length > 50){
+    return callback('Invalid input', null);
+  }
+  else{
   db.query( `update ${TABLE_3} set status=0 where id_lock = ?`,[status,id], callback);
+}
 };
 
 

@@ -32,8 +32,10 @@ router.get('/:id', (req, res) => {
 
   
   router.post('/', (req, res) => {
-    const marketData = req.body;
-    stallModel.createStall(marketData, (err, result) => {
+    const stallData = req.body;
+    const filePath = req.file.path;
+    stallData.file = filePath;
+    stallModel.createStall(stallData, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
         return;
@@ -41,10 +43,10 @@ router.get('/:id', (req, res) => {
       res.json(result);
     });
   });
-
+  
 
   router.put('/', (req, res) => {
-    const marketData = req.body;
+    const stallData = req.body;
     stallModel.updateStall(marketData, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });

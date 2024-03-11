@@ -18,21 +18,13 @@ const multer  = require('multer');
 
 const storage_report = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './Public/uploads-slip');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
-
-const storage_slip = multer.diskStorage({
-  destination: function (req, file, cb) {
     cb(null, './Public/uploads-report');
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
   }
 });
+
 
 const upload_report  = multer({ 
   storage: storage_report,
@@ -45,7 +37,16 @@ const upload_report  = multer({
   }
 }); 
 
-const upload_slip  = multer({ 
+const storage_slip = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './Public/uploads-slip');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+
+const upload_slip = multer({ 
   storage: storage_slip,
   limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: function (req, file, cb) {
