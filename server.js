@@ -13,7 +13,7 @@ const swaggerDocument = yaml.parse(file)
 const MarketController = require('./Controller/MarketController');
 const ReportController = require('./Controller/ReportController');
 const StallController = require('./Controller/StallController');
-
+const path = require("path");
 const multer  = require('multer');
 
 const storage_report = multer.diskStorage({
@@ -58,7 +58,7 @@ const upload_slip = multer({
 }); 
 
 dotenv.config({ path: './config/.env' });
-
+const publicDirectory = path.join(__dirname, "Public");
 const { MY_PORT, NODE_ENV,API_KEY} = process.env;
 
 var app = express();
@@ -85,7 +85,35 @@ if(NODE_ENV === 'development'){
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 }
 
+
+app.use(express.static(publicDirectory));
+
+
 app.use(express.json())
+
+app.get("/api/images", (req, res) => {
+  const reportDirectory = path.join(publicDirectory, "uploads-report");
+  fs.readdir(reportDirectory, (err, files) => {
+    if (err) {
+      console.error("Error reading directory:", err);
+      return res.status(500).json({ error: "Error reading directory" });
+    }
+    const imageUrls = files.map(file => `${req.protocol}://${req.get("host")}/uploads-report/${file}`);
+    res.json(imageUrls);
+  });
+});
+
+app.get("/api/images-slip", (req, res) => {
+  const reportDirectory = path.join(publicDirectory, "uploads-slip");
+  fs.readdir(reportDirectory, (err, files) => {
+    if (err) {
+      console.error("Error reading directory:", err);
+      return res.status(500).json({ error: "Error reading directory" });
+    }
+    const imageUrls = files.map(file => `${req.protocol}://${req.get("host")}/uploads-slip/${file}`);
+    res.json(imageUrls);
+  });
+});
 
 app.use('/market', authenticateApiKey,MarketController);
 app.use('/report', upload_report.single('file'),authenticateApiKey,ReportController);

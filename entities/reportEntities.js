@@ -19,8 +19,13 @@ const createReport = (reportData, callback) => {
 
 };
 
+const updateReport = (reportData, callback) => {
+  db.query( `update ${TABLE_2} set status= "1" where id_report = ?`,[reportData], callback);
+};
+
 
 module.exports = {
   createReport,
-  getAllReport
+  getAllReport,
+  updateReport
 }

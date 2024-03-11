@@ -1,8 +1,9 @@
 const express = require('express');
 const stallModel = require('../entities/stallEntities')
+const bodyParser = require('body-parser');
 const {getAllStalls,getStallById,createStall,updateStall,deleteStall} = stallModel
 const router = express.Router();
-
+router.use(bodyParser.json());
 router.get('/all', (req, res) => {
   stallModel.getAllStalls((err, result) => {
     if (err) {
@@ -45,9 +46,10 @@ router.get('/:id', (req, res) => {
   });
   
 
-  router.put('/', (req, res) => {
+  router.put('/:id', (req, res) => {
+    const id = req.params.id;
     const stallData = req.body;
-    stallModel.updateStall(marketData, (err, result) => {
+    stallModel.updateStall(id, (err, result) => {
       if (err) {
         res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
         return;
@@ -55,7 +57,6 @@ router.get('/:id', (req, res) => {
       res.json(result);
     });
   });
-  
   
 
 
