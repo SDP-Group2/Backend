@@ -28,27 +28,6 @@ router.get('/:key', (req, res) => {
       }
     });
   });
-
-  router.put('/ToNotNull/:id', (req, res) => {
-    const marketData = req.body;
-    marketModel.updateMarketToNotNull(marketData, (err, result) => {
-      if (err) {
-        res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
-        return;
-      }
-      res.json(result);
-    });
-  });
-  router.put('/ToNull/:id', (req, res) => {
-    const marketData = req.body;
-    marketModel.updateMarketToNull(marketData, (err, result) => {
-      if (err) {
-        res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
-        return;
-      }
-      res.json(result);
-    });
-  });
   
 
 

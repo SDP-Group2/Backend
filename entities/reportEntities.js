@@ -23,9 +23,18 @@ const updateReport = (reportData, callback) => {
   db.query( `update ${TABLE_2} set status= "1" where id_report = ?`,[reportData], callback);
 };
 
+const updateReport_wait = (reportData, callback) => {
+  db.query( `update ${TABLE_2} set status= "2" where id_report = ?`,[reportData], callback);
+};
+
+const deleteReport = (reportData, callback) => {
+  db.query(`DELETE FROM ${TABLE_2} WHERE id_report = ?`, [reportData], callback);
+};
 
 module.exports = {
   createReport,
   getAllReport,
-  updateReport
+  updateReport,
+  deleteReport,
+  updateReport_wait
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const stallModel = require('../entities/stallEntities')
 const bodyParser = require('body-parser');
-const {getAllStalls,getStallById,createStall,updateStall,deleteStall} = stallModel
+const {getAllStalls,getStallById,createStall,updateStall,deleteStall, deleteBothStall} = stallModel
 const router = express.Router();
 router.use(bodyParser.json());
 router.get('/all', (req, res) => {
@@ -73,6 +73,17 @@ router.get('/:id', (req, res) => {
   });
 
 
+  router.delete('/both/:id', (req,res) => {
+    const id = req.params.id;
+
+    stallModel.deleteBothStall({ id },(err, result) => {
+      if (err) {
+        res.status(500).json({ 'status': 'error', 'message': 'Internal Server Error' });
+        return;
+      }
+      res.json(result);
+    });
+  });
 
   module.exports = router;
   

@@ -33,7 +33,7 @@ const createStall = (marketData, callback) => {
         } else {
           if (results.length > 0) {
             const idLock = results[0].id_lock;
-            db.query(`INSERT INTO ${TABLE} (ID_lock, Name_shop, path_to_imag_slip, date_start, date_end, type, phone) VALUES (?, ?, ?, ?, ?, ?, ?)`, [idLock, name, file, startDateObj, endDateObj, type, phone], (error, insertResult) => {
+            db.query(`INSERT INTO ${TABLE} (ID_lock, Name_shop, path_to_imag_slip, date_start, date_end, type, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?,?)`, [idLock, name, file, startDateObj, endDateObj, type, phone,"0"], (error, insertResult) => {
               if (error) {
                 console.error('Error performing INSERT query:', error);
                 reject(error);
@@ -73,11 +73,32 @@ const deleteStall = (marketData, callback) => {
   db.query( `DELETE FROM ${TABLE} WHERE Name_shop = ?`, [id], callback);
 };
 
+const updateStallStatus = (stallID, callback) => {
+  db.query(`UPDATE ${TABLE} SET status = '2' WHERE ID_stall = ?`, [stallID], callback);
+};
 
+const updateMarketStatus = (callback) => {
+  db.query(`UPDATE market
+            JOIN stall ON market.id_lock = stall.ID_lock
+            SET market.status = '0'
+            WHERE stall.status = '2'`, callback);
+};
+
+const deleteBothStall = (marketData, callback) => {
+  const { id } = marketData;
+  updateStallStatus(id, (err, result) => {
+      if (err) {
+          callback(err, null);
+          return;
+      }
+      updateMarketStatus(callback);
+  });
+};
 module.exports = {
   getAllStalls,
   getStallById,
   createStall,
   updateStall,
-  deleteStall
+  deleteStall,
+  deleteBothStall
 }
